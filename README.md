@@ -1,6 +1,6 @@
-# Misión Emily
+# La noche que eligió tu nombre
 
-Una terminal romántica inspirada en videojuegos, libros y mitología griega.
+Un libro romántico interactivo para Emily, con páginas animadas, un poema original y un pequeño homenaje a *Noches blancas* de Fiódor Dostoievski.
 
-Creada para Emily. Abre `index.html` para verla localmente o publica la rama principal con GitHub Pages.
+Las páginas pueden recorrerse con los botones, las flechas del teclado o un gesto horizontal en dispositivos táctiles.
 
