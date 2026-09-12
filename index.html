@@ -3,113 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080b12">
-  <meta name="description" content="Una pequeña misión romántica para Emily, entre libros, videojuegos y mitología griega.">
-  <title>Misión Emily</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23080b12'/%3E%3Cpath d='M16 27S5 20.5 5 12.5C5 7.5 11.5 5 16 10c4.5-5 11-2.5 11 2.5C27 20.5 16 27 16 27Z' fill='%23d9af5b'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Un libro interactivo escrito para Emily, entre páginas, constelaciones y mitología.">
+  <title>La noche que eligió tu nombre · Para Emily</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111827'/%3E%3Cpath d='M7 7h9c3 0 5 2 5 5v13c-1.4-1.3-3-2-5-2H7z' fill='%23f4e8c9'/%3E%3Cpath d='M21 12c0-3 2-5 5-5v16c-2 0-3.7.7-5 2z' fill='%23d8ad5c'/%3E%3C/svg%3E">
   <style>
-    :root {
-      color-scheme: dark;
-      --ink:#080b12;
-      --panel:#0d1320;
-      --cyan:#61f3d6;
-      --gold:#d9af5b;
-      --paper:#e9e0c5;
-      --muted:#83909e;
-      --line:rgba(97,243,214,.22);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;display:grid;place-items:center;overflow-x:hidden;
-      background:
-        radial-gradient(circle at 18% 18%,rgba(97,243,214,.08),transparent 30%),
-        radial-gradient(circle at 82% 82%,rgba(217,175,91,.09),transparent 30%),
-        linear-gradient(135deg,#05070c,var(--ink) 50%,#0b0d15);
-      color:var(--paper);font-family:Consolas,"Courier New",monospace;padding:24px;
-    }
-    body::before{
-      content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
-      background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.018) 3px 4px);
-    }
-    .shell{width:min(820px,100%);position:relative}
-    .greek-key{height:10px;margin:0 18px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 12px,var(--gold) 12px 16px,transparent 16px 24px);opacity:.72}
-    .terminal{border:1px solid rgba(217,175,91,.45);background:rgba(7,11,18,.94);box-shadow:0 26px 80px #000,0 0 45px rgba(97,243,214,.07);border-radius:14px;overflow:hidden}
-    .bar{height:48px;display:flex;align-items:center;gap:9px;padding:0 17px;border-bottom:1px solid var(--line);background:#0c111b}
-    .dot{width:11px;height:11px;border-radius:50%;background:#34404d}.dot:nth-child(1){background:#d86a6a}.dot:nth-child(2){background:var(--gold)}.dot:nth-child(3){background:var(--cyan)}
-    .bar-title{margin:auto;color:var(--muted);font-size:.78rem;letter-spacing:.12em;transform:translateX(-28px)}
-    main{min-height:480px;padding:clamp(24px,5vw,48px)}
-    .eyebrow{color:var(--gold);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin:0 0 18px}
-    h1{font-family:Georgia,serif;font-size:clamp(2rem,7vw,4.1rem);line-height:.96;margin:0 0 24px;font-weight:500;max-width:680px}
-    h1 em{color:var(--gold);font-style:italic}
-    .intro{color:#bdc7cc;line-height:1.7;max-width:650px;font-size:1rem;margin-bottom:30px}
-    .prompt{color:var(--cyan);display:flex;gap:10px;align-items:center;margin:12px 0;line-height:1.55}
-    .prompt::before{content:">";color:var(--gold)}
-    .cursor{display:inline-block;width:9px;height:1.1em;background:var(--cyan);vertical-align:-2px;animation:blink .8s steps(1) infinite}
-    @keyframes blink{50%{opacity:0}}
-    button{font:700 .9rem/1 Consolas,monospace;letter-spacing:.08em;color:#06110e;background:var(--cyan);border:0;border-radius:7px;padding:15px 19px;cursor:pointer;box-shadow:0 0 24px rgba(97,243,214,.17);transition:.2s transform,.2s box-shadow}
-    button:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(97,243,214,.32)}button:focus-visible{outline:2px solid white;outline-offset:4px}
-    .log{margin:24px 0;min-height:138px;color:#aab7bd;line-height:1.65}.log p{margin:5px 0;opacity:0;animation:appear .3s forwards}.ok{color:var(--cyan)}.myth{color:var(--gold)}
-    @keyframes appear{to{opacity:1}}
-    .reveal{display:none;border-left:2px solid var(--gold);padding:6px 0 6px 23px;margin-top:26px;animation:rise .7s ease both}
-    .reveal.show{display:block}.reveal blockquote{font-family:Georgia,serif;font-size:clamp(1.3rem,3.5vw,2rem);line-height:1.42;margin:0 0 18px;color:#f1e9d5}.reveal p{color:#aeb8bd;line-height:1.7;margin:0}
-    .signature{color:var(--gold)!important;margin-top:15px!important}
-    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}.chip{border:1px solid var(--line);padding:8px 11px;border-radius:999px;color:#8da09f;font-size:.76rem}.chip b{color:var(--cyan);font-weight:400}
-    footer{text-align:center;color:#4d5b66;font-size:.72rem;letter-spacing:.14em;margin-top:16px}
-    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-    @media (max-width:560px){body{padding:12px}.bar-title{font-size:.65rem}.terminal{border-radius:10px}main{min-height:510px}.greek-key{margin:0 10px}}
-    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+    :root{color-scheme:dark;--night:#070b16;--blue:#111b35;--gold:#d8ad5c;--gold-soft:#f0d99a;--paper:#f4ecd8;--paper-2:#e8dcc0;--ink:#342b26;--muted:#8e98ad}
+    *{box-sizing:border-box}html,body{min-height:100%}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 12% 18%,rgba(100,138,196,.18) 0 1px,transparent 2px),radial-gradient(circle at 76% 12%,rgba(240,217,154,.18) 0 1px,transparent 2px),radial-gradient(circle at 85% 78%,rgba(100,138,196,.13) 0 1px,transparent 2px),linear-gradient(150deg,#050711,var(--night) 45%,#0b1328);background-size:170px 170px,230px 230px,290px 290px,auto;color:#fff;font-family:Georgia,"Times New Roman",serif;padding:clamp(14px,3vw,32px)}
+    .experience{width:min(1040px,100%);display:grid;justify-items:center;gap:18px}.heading{text-align:center}.kicker{margin:0 0 7px;color:var(--gold);font:600 .72rem/1.2 Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase}.heading h1{margin:0;font-size:clamp(1.35rem,3vw,2.2rem);font-weight:400;letter-spacing:.02em}.heading h1 em{color:var(--gold-soft);font-weight:400}
+    .stage{width:100%;display:grid;place-items:center;perspective:2200px;padding:10px 0}.book{position:relative;width:min(900px,94vw);height:min(570px,68vh);min-height:390px;transform-style:preserve-3d;filter:drop-shadow(0 30px 35px rgba(0,0,0,.52))}.book::after{content:"";position:absolute;z-index:30;left:50%;top:1%;bottom:1%;width:2px;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.25),rgba(255,255,255,.24),rgba(0,0,0,.28));pointer-events:none;box-shadow:0 0 18px rgba(0,0,0,.35)}
+    .base{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;border-radius:9px;background:var(--paper);box-shadow:0 0 0 7px #0d1730,0 0 0 9px var(--gold)}.base-page{display:flex;align-items:center;justify-content:center;text-align:center;padding:8%;color:var(--ink);background:linear-gradient(90deg,var(--paper-2),var(--paper));overflow:hidden}.base-page:last-child{background:linear-gradient(90deg,var(--paper),#fff9e9)}.base-page small{font:600 .65rem/1.4 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#9b7741}.base-page p{font-size:clamp(1rem,2.3vw,1.7rem);line-height:1.5;margin:10px 0 0}
+    .paper{position:absolute;right:0;top:0;width:50%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.05s cubic-bezier(.55,.08,.2,1);will-change:transform}.paper.flipped{transform:rotateY(-180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}.front{background:linear-gradient(100deg,#efe4ca 0,#fffaf0 12%,var(--paper) 100%);border-radius:0 8px 8px 0;box-shadow:inset 13px 0 24px rgba(75,51,26,.1)}.back{transform:rotateY(180deg);background:linear-gradient(270deg,#efe4ca 0,#fffaf0 12%,var(--paper) 100%);border-radius:8px 0 0 8px;box-shadow:inset -13px 0 24px rgba(75,51,26,.1)}
+    .page{height:100%;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5.2vw,58px);color:var(--ink);position:relative}.page::before{content:"";position:absolute;inset:18px;border:1px solid rgba(159,119,54,.22);pointer-events:none}.folio{position:absolute;bottom:25px;left:0;right:0;text-align:center;color:#9c886e;font:italic .76rem/1 Georgia,serif}.chapter{font:700 .65rem/1.3 Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#9d7137;margin:0 0 18px}.verse{font-size:clamp(.86rem,1.85vw,1.36rem);line-height:1.72;margin:0;text-wrap:balance}.verse span{display:block}.dropcap::first-letter{float:left;font-size:3.4em;line-height:.8;margin:.12em .1em 0 0;color:#9d7137}
+    .dedication{text-align:center}.dedication .ornament{color:#aa7a38;font-size:1.5rem;letter-spacing:.22em;margin-bottom:18px}.dedication h2{font-size:clamp(1.55rem,3.6vw,2.7rem);font-weight:400;margin:0 0 18px}.dedication p{font-size:clamp(.82rem,1.7vw,1.12rem);line-height:1.65;margin:0 auto;max-width:28ch}.quote{text-align:center}.quote blockquote{font-size:clamp(1.05rem,2.4vw,1.72rem);font-style:italic;line-height:1.55;margin:0}.quote cite{display:block;margin-top:20px;color:#8d6b3e;font-size:.8rem;line-height:1.5}
+    .cover{background:linear-gradient(140deg,#17294c,#091126 72%);color:#f8edcf;border-radius:0 9px 9px 0;box-shadow:inset 12px 0 25px rgba(0,0,0,.34),inset 0 0 0 2px rgba(216,173,92,.75),inset 0 0 0 12px #101c38,inset 0 0 0 13px rgba(216,173,92,.35)}.cover .page::before{inset:28px;border:1px solid rgba(216,173,92,.46)}.cover-content{text-align:center;position:relative;z-index:1}.moon{width:58px;height:58px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 28px;display:grid;place-items:center;color:var(--gold);font-size:1.25rem;box-shadow:0 0 30px rgba(216,173,92,.12)}.cover h2{font-size:clamp(1.7rem,4.3vw,3.15rem);line-height:1.05;font-weight:400;margin:0 0 17px;color:#fff5dc}.cover p{font-style:italic;color:#d8cba8;font-size:clamp(.82rem,1.7vw,1.08rem);margin:0}.cover .for{font:600 .64rem/1 Arial,sans-serif;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-top:30px}
+    .finale{text-align:center}.finale .heart{font-size:2rem;color:#a37639;margin-bottom:15px}.finale h2{font-size:clamp(1.35rem,3vw,2.3rem);font-weight:400;line-height:1.25;margin:0 0 18px}.finale p{font-size:clamp(.84rem,1.7vw,1.1rem);line-height:1.65;margin:0 auto;max-width:27ch}.signature{margin-top:24px!important;color:#9d7137;font-style:italic}
+    .controls{display:flex;align-items:center;justify-content:center;gap:14px;min-height:48px}button{border:1px solid rgba(216,173,92,.58);background:rgba(13,23,48,.88);color:#f5e7c4;border-radius:999px;padding:11px 17px;font:600 .78rem/1 Arial,sans-serif;letter-spacing:.08em;cursor:pointer;transition:.2s ease}button:hover:not(:disabled){background:#1a2b50;transform:translateY(-1px)}button:focus-visible{outline:2px solid white;outline-offset:3px}button:disabled{opacity:.28;cursor:not-allowed}.progress{min-width:92px;text-align:center;color:var(--muted);font:500 .73rem/1 Arial,sans-serif;letter-spacing:.14em}.hint{margin:0;color:#77839a;font:400 .72rem/1.4 Arial,sans-serif;text-align:center}
+    @media(max-width:650px){body{padding:12px 7px}.experience{gap:10px}.book{width:96vw;height:min(600px,72vh);min-height:430px}.page{padding:31px 18px 45px}.page::before{inset:10px}.cover .page::before{inset:15px}.verse{font-size:clamp(.76rem,3.55vw,1rem);line-height:1.62}.chapter{font-size:.55rem;margin-bottom:12px}.dedication p,.finale p{font-size:clamp(.74rem,3.4vw,.94rem)}.quote blockquote{font-size:clamp(.88rem,3.8vw,1.18rem)}.folio{bottom:18px}.moon{width:44px;height:44px;margin-bottom:18px}.cover .for{margin-top:20px}.hint{font-size:.66rem}}
+    @media(prefers-reduced-motion:reduce){.paper{transition-duration:.01ms}button{transition:none}}
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="greek-key" aria-hidden="true"></div>
-    <section class="terminal" aria-label="Terminal romántica">
-      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="bar-title">OLYMPUS_OS / EMILY_QUEST</span></div>
-      <main>
-        <p class="eyebrow">Archivo confidencial del Olimpo</p>
-        <h1>Misión: encontrar a <em>Emily</em></h1>
-        <p class="intro">He recorrido mapas, sobrevivido jefes finales y leído mil profecías. Pero hay una misión que nunca quiero terminar.</p>
-        <div id="start-zone">
-          <p class="prompt">Ejecutar búsqueda de la persona más especial <span class="cursor" aria-hidden="true"></span></p>
-          <button id="run" type="button">[ INICIAR MISIÓN ]</button>
-        </div>
-        <div class="log" id="log" aria-live="polite"></div>
-        <div class="reveal" id="reveal">
-          <blockquote>“Ni Atenea podría explicar tu inteligencia, ni Afrodita competir con tu belleza.”</blockquote>
-          <p>Entre todos los mundos posibles, todas las historias y todas las partidas… siempre te elegiría a ti.</p>
-          <p class="signature">— Tu jugador número uno ♡</p>
-          <div class="stats" aria-label="Estadísticas de compatibilidad">
-            <span class="chip">Compatibilidad: <b>100%</b></span>
-            <span class="chip">Rareza: <b>Legendaria</b></span>
-            <span class="chip">Destino: <b>Desbloqueado</b></span>
-          </div>
-        </div>
-      </main>
+  <main class="experience">
+    <header class="heading"><p class="kicker">Un pequeño libro para Emily</p><h1>Entre páginas y <em>constelaciones</em></h1></header>
+    <section class="stage" aria-label="Libro interactivo romántico">
+      <div class="book" id="book">
+        <div class="base" aria-hidden="true"><div class="base-page"><div><small>Prólogo</small><p>Hay historias que comienzan antes de abrir el libro.</p></div></div><div class="base-page"><div><small>Continuará…</small><p>Porque contigo nunca pediría llegar al final.</p></div></div></div>
+        <article class="paper" data-sheet="1">
+          <div class="face front cover"><div class="page cover-content"><div class="moon" aria-hidden="true">☾</div><h2>La noche que<br>eligió tu nombre</h2><p>poema para una lectora de mundos</p><p class="for">Para Emily</p></div></div>
+          <div class="face back"><div class="page dedication"><div class="ornament" aria-hidden="true">· ✦ ·</div><h2>Emily</h2><p>Para ti, que haces de cada libro una puerta y de cada noche un lugar menos solitario.</p><span class="folio">i</span></div></div>
+        </article>
+        <article class="paper" data-sheet="2">
+          <div class="face front"><div class="page"><p class="chapter">I · La lámpara</p><p class="verse dropcap"><span>Si la ciudad apaga sus ventanas</span><span>y el cielo olvida cómo amanecer,</span><span>yo encenderé una lámpara en tus páginas</span><span>para encontrarte siempre al volver.</span></p><span class="folio">1</span></div></div>
+          <div class="face back"><div class="page"><p class="chapter">II · Dos mundos</p><p class="verse"><span>Tú lees: el tiempo baja la voz.</span><span>Yo juego: el mundo espera en pausa.</span><span>Y entre tus libros y mis aventuras</span><span>inventamos un reino que nos basta.</span></p><span class="folio">2</span></div></div>
+        </article>
+        <article class="paper" data-sheet="3">
+          <div class="face front"><div class="page"><p class="chapter">III · El hilo</p><p class="verse dropcap"><span>No fue el hilo de Ariadna,</span><span>ni un capricho del oráculo;</span><span>fue tu risa abriendo un camino</span><span>donde todos mis mapas terminaban.</span></p><span class="folio">3</span></div></div>
+          <div class="face back"><div class="page"><p class="chapter">IV · Olimpo</p><p class="verse"><span>Si Atenea guardara tu ingenio</span><span>y Afrodita aprendiera tu luz,</span><span>todavía quedaría algo imposible:</span><span>la forma exacta en que eres tú.</span></p><span class="folio">4</span></div></div>
+        </article>
+        <article class="paper" data-sheet="4">
+          <div class="face front"><div class="page"><p class="chapter">V · Noches blancas</p><p class="verse dropcap"><span>Quiero tus noches blancas y tranquilas,</span><span>los capítulos que faltan por vivir,</span><span>ser el jugador que cuide tus historias</span><span>y la página a la que quieras volver.</span></p><span class="folio">5</span></div></div>
+          <div class="face back"><div class="page quote"><p class="chapter">Una línea para guardar</p><blockquote>“¡Todo un minuto de felicidad! ¿Acaso es poco para toda una vida humana?”</blockquote><cite>— Fiódor Dostoievski<br><em>Noches blancas</em></cite><span class="folio">6</span></div></div>
+        </article>
+        <article class="paper" data-sheet="5">
+          <div class="face front"><div class="page"><p class="chapter">VI · Mi respuesta</p><p class="verse"><span>Un minuto contigo sería un tesoro,</span><span>pero yo, si pudiera elegir,</span><span>pediría todas las noches, todos los mundos</span><span>y todas las páginas junto a ti.</span></p><span class="folio">7</span></div></div>
+          <div class="face back"><div class="page finale"><div class="heart" aria-hidden="true">♡</div><h2>Mi historia favorita<br>tiene tu nombre.</h2><p>Y si el amor fuera un libro, no buscaría el final. Solo pediría otra página contigo.</p><p class="signature">— Jhosua</p><span class="folio">8</span></div></div>
+        </article>
+      </div>
     </section>
-    <footer>ΠΑΝΤΑ ΣΕ ΔΙΑΛΕΓΩ · SIEMPRE TE ELIJO</footer>
-  </div>
+    <nav class="controls" aria-label="Controles del libro"><button id="prev" type="button" aria-label="Volver a la página anterior">← Anterior</button><span class="progress" id="progress" aria-live="polite">Portada</span><button id="next" type="button" aria-label="Pasar a la página siguiente">Siguiente →</button></nav>
+    <p class="hint">También puedes usar las flechas del teclado o deslizar sobre el libro.</p>
+  </main>
   <script>
-    const run = document.querySelector('#run');
-    const log = document.querySelector('#log');
-    const reveal = document.querySelector('#reveal');
-    const lines = [
-      ['Cargando biblioteca de recuerdos...', ''],
-      ['Consultando al Oráculo de Delfos...', 'myth'],
-      ['Analizando partidas compartidas...', ''],
-      ['Coincidencia única encontrada.', 'ok'],
-      ['IDENTIDAD: EMILY — LA PROTAGONISTA DE MI HISTORIA ♡', 'ok']
-    ];
-    run.addEventListener('click', async () => {
-      run.disabled = true; run.textContent = '[ MISIÓN EN CURSO... ]';
-      log.replaceChildren(); reveal.classList.remove('show');
-      for (const [text, cls] of lines) {
-        const p = document.createElement('p'); p.className = cls; p.textContent = '> ' + text; log.appendChild(p);
-        await new Promise(resolve => setTimeout(resolve, 620));
-      }
-      reveal.classList.add('show');
-      run.textContent = '[ MISIÓN COMPLETADA ]';
-      reveal.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'});
-    });
+    const papers=[...document.querySelectorAll('.paper')],next=document.querySelector('#next'),prev=document.querySelector('#prev'),progress=document.querySelector('#progress'),book=document.querySelector('#book');let current=0,touchStart=0;
+    papers.forEach((paper,index)=>paper.style.zIndex=papers.length-index);
+    function updateControls(){prev.disabled=current===0;next.disabled=current===papers.length;progress.textContent=current===0?'Portada':current===papers.length?'Final':`${current} / ${papers.length}`}
+    function forward(){if(current>=papers.length)return;const paper=papers[current],flippedIndex=current;paper.classList.add('flipped');setTimeout(()=>paper.style.zIndex=flippedIndex+1,540);current+=1;updateControls()}
+    function backward(){if(current<=0)return;current-=1;const paper=papers[current];paper.style.zIndex=papers.length-current;requestAnimationFrame(()=>paper.classList.remove('flipped'));updateControls()}
+    next.addEventListener('click',forward);prev.addEventListener('click',backward);document.addEventListener('keydown',event=>{if(event.key==='ArrowRight')forward();if(event.key==='ArrowLeft')backward()});book.addEventListener('touchstart',event=>touchStart=event.changedTouches[0].clientX,{passive:true});book.addEventListener('touchend',event=>{const distance=event.changedTouches[0].clientX-touchStart;if(Math.abs(distance)<45)return;distance<0?forward():backward()},{passive:true});updateControls();
   </script>
 </body>
 </html>
