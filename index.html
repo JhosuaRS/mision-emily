@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="Una pequeña misión romántica para Emily, entre libros, videojuegos y mitología griega.">
+  <title>Misión Emily</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23080b12'/%3E%3Cpath d='M16 27S5 20.5 5 12.5C5 7.5 11.5 5 16 10c4.5-5 11-2.5 11 2.5C27 20.5 16 27 16 27Z' fill='%23d9af5b'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink:#080b12;
+      --panel:#0d1320;
+      --cyan:#61f3d6;
+      --gold:#d9af5b;
+      --paper:#e9e0c5;
+      --muted:#83909e;
+      --line:rgba(97,243,214,.22);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;display:grid;place-items:center;overflow-x:hidden;
+      background:
+        radial-gradient(circle at 18% 18%,rgba(97,243,214,.08),transparent 30%),
+        radial-gradient(circle at 82% 82%,rgba(217,175,91,.09),transparent 30%),
+        linear-gradient(135deg,#05070c,var(--ink) 50%,#0b0d15);
+      color:var(--paper);font-family:Consolas,"Courier New",monospace;padding:24px;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+      background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.018) 3px 4px);
+    }
+    .shell{width:min(820px,100%);position:relative}
+    .greek-key{height:10px;margin:0 18px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 12px,var(--gold) 12px 16px,transparent 16px 24px);opacity:.72}
+    .terminal{border:1px solid rgba(217,175,91,.45);background:rgba(7,11,18,.94);box-shadow:0 26px 80px #000,0 0 45px rgba(97,243,214,.07);border-radius:14px;overflow:hidden}
+    .bar{height:48px;display:flex;align-items:center;gap:9px;padding:0 17px;border-bottom:1px solid var(--line);background:#0c111b}
+    .dot{width:11px;height:11px;border-radius:50%;background:#34404d}.dot:nth-child(1){background:#d86a6a}.dot:nth-child(2){background:var(--gold)}.dot:nth-child(3){background:var(--cyan)}
+    .bar-title{margin:auto;color:var(--muted);font-size:.78rem;letter-spacing:.12em;transform:translateX(-28px)}
+    main{min-height:480px;padding:clamp(24px,5vw,48px)}
+    .eyebrow{color:var(--gold);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin:0 0 18px}
+    h1{font-family:Georgia,serif;font-size:clamp(2rem,7vw,4.1rem);line-height:.96;margin:0 0 24px;font-weight:500;max-width:680px}
+    h1 em{color:var(--gold);font-style:italic}
+    .intro{color:#bdc7cc;line-height:1.7;max-width:650px;font-size:1rem;margin-bottom:30px}
+    .prompt{color:var(--cyan);display:flex;gap:10px;align-items:center;margin:12px 0;line-height:1.55}
+    .prompt::before{content:">";color:var(--gold)}
+    .cursor{display:inline-block;width:9px;height:1.1em;background:var(--cyan);vertical-align:-2px;animation:blink .8s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+    button{font:700 .9rem/1 Consolas,monospace;letter-spacing:.08em;color:#06110e;background:var(--cyan);border:0;border-radius:7px;padding:15px 19px;cursor:pointer;box-shadow:0 0 24px rgba(97,243,214,.17);transition:.2s transform,.2s box-shadow}
+    button:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(97,243,214,.32)}button:focus-visible{outline:2px solid white;outline-offset:4px}
+    .log{margin:24px 0;min-height:138px;color:#aab7bd;line-height:1.65}.log p{margin:5px 0;opacity:0;animation:appear .3s forwards}.ok{color:var(--cyan)}.myth{color:var(--gold)}
+    @keyframes appear{to{opacity:1}}
+    .reveal{display:none;border-left:2px solid var(--gold);padding:6px 0 6px 23px;margin-top:26px;animation:rise .7s ease both}
+    .reveal.show{display:block}.reveal blockquote{font-family:Georgia,serif;font-size:clamp(1.3rem,3.5vw,2rem);line-height:1.42;margin:0 0 18px;color:#f1e9d5}.reveal p{color:#aeb8bd;line-height:1.7;margin:0}
+    .signature{color:var(--gold)!important;margin-top:15px!important}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}.chip{border:1px solid var(--line);padding:8px 11px;border-radius:999px;color:#8da09f;font-size:.76rem}.chip b{color:var(--cyan);font-weight:400}
+    footer{text-align:center;color:#4d5b66;font-size:.72rem;letter-spacing:.14em;margin-top:16px}
+    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @media (max-width:560px){body{padding:12px}.bar-title{font-size:.65rem}.terminal{border-radius:10px}main{min-height:510px}.greek-key{margin:0 10px}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="greek-key" aria-hidden="true"></div>
+    <section class="terminal" aria-label="Terminal romántica">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="bar-title">OLYMPUS_OS / EMILY_QUEST</span></div>
+      <main>
+        <p class="eyebrow">Archivo confidencial del Olimpo</p>
+        <h1>Misión: encontrar a <em>Emily</em></h1>
+        <p class="intro">He recorrido mapas, sobrevivido jefes finales y leído mil profecías. Pero hay una misión que nunca quiero terminar.</p>
+        <div id="start-zone">
+          <p class="prompt">Ejecutar búsqueda de la persona más especial <span class="cursor" aria-hidden="true"></span></p>
+          <button id="run" type="button">[ INICIAR MISIÓN ]</button>
+        </div>
+        <div class="log" id="log" aria-live="polite"></div>
+        <div class="reveal" id="reveal">
+          <blockquote>“Ni Atenea podría explicar tu inteligencia, ni Afrodita competir con tu belleza.”</blockquote>
+          <p>Entre todos los mundos posibles, todas las historias y todas las partidas… siempre te elegiría a ti.</p>
+          <p class="signature">— Tu jugador número uno ♡</p>
+          <div class="stats" aria-label="Estadísticas de compatibilidad">
+            <span class="chip">Compatibilidad: <b>100%</b></span>
+            <span class="chip">Rareza: <b>Legendaria</b></span>
+            <span class="chip">Destino: <b>Desbloqueado</b></span>
+          </div>
+        </div>
+      </main>
+    </section>
+    <footer>ΠΑΝΤΑ ΣΕ ΔΙΑΛΕΓΩ · SIEMPRE TE ELIJO</footer>
+  </div>
+  <script>
+    const run = document.querySelector('#run');
+    const log = document.querySelector('#log');
+    const reveal = document.querySelector('#reveal');
+    const lines = [
+      ['Cargando biblioteca de recuerdos...', ''],
+      ['Consultando al Oráculo de Delfos...', 'myth'],
+      ['Analizando partidas compartidas...', ''],
+      ['Coincidencia única encontrada.', 'ok'],
+      ['IDENTIDAD: EMILY — LA PROTAGONISTA DE MI HISTORIA ♡', 'ok']
+    ];
+    run.addEventListener('click', async () => {
+      run.disabled = true; run.textContent = '[ MISIÓN EN CURSO... ]';
+      log.replaceChildren(); reveal.classList.remove('show');
+      for (const [text, cls] of lines) {
+        const p = document.createElement('p'); p.className = cls; p.textContent = '> ' + text; log.appendChild(p);
+        await new Promise(resolve => setTimeout(resolve, 620));
+      }
+      reveal.classList.add('show');
+      run.textContent = '[ MISIÓN COMPLETADA ]';
+      reveal.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'});
+    });
+  </script>
+</body>
+</html>
+
